@@ -1,0 +1,3 @@
+Activación de Windows: 
+	PowerShell:
+irm https://get.activated.win | iex

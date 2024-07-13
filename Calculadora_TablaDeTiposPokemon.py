@@ -4,28 +4,89 @@ CantidadPokemon = 0
 print("-" *100)
 print("          Este programa sirve para calcular lo preparado que está tu equipo pokémon")
 print(("         en disposición de tipos, contra qué tipos elementales debes fortalecer etc."))
+print("\n")
 print("-" *100)
 
-Tipos ={
-    "Agua": -1,
-    "Fuego" : -1,
-    "Planta" : -1,
-    "Electrico" : -1,
-    "Volador" : -1,
-    "Tierra" : -1,
-    "Roca" : -1,
-    "Acero" : -1,
-    "Hada" : -1,
-    "Dragon" : -1,
-    "Psiquico" : -1,
-    "Siniestro" : -1,
-    "Fantasma" : -1,
-    "Veneno" : -1,
-    "Bicho" : -1,
-    "Lucha" : -1,
-    "Hielo" : -1,
-    "Normal" : -1
-}
+print("\n Cada elemento puede iniciar con una puntuación idéntica a las demás. Pero puedes iniciar con una calibración estándar que considera:")
+print(" - Frecuencia de aparición de ese tipo pokémon.")
+print(" - Cantidad de movimientos de ese tipo")
+print(" - Cantidad de pokémon de ese tipo")
+print(" - Potencia de los movimientos de ese tipo")
+print(" - Fortaleza de los pokémon de ese tipo")
+print()
+print("¿Utilizar tabla ponderada?")
+print("1.- Sí")
+print("2.- No")
+print("3.- Ponderarla yo mismo.")
+PonderarEleccion = input("    Respuesta:  ")
+
+while True:
+    if PonderarEleccion == "1" or PonderarEleccion == "Si":
+        print("\nPONDERACIÓN CON PESOS CALIBRADOS\n")
+        Tipos ={
+            "Agua": -1,
+            "Fuego" : 0,
+            "Planta" : -1,
+            "Electrico" : -1,
+            "Volador" : -1,
+            "Tierra" : -1,
+            "Roca" : -1,
+            "Acero" : 0,
+            "Hada" : 0,
+            "Dragon" : 0,
+            "Psiquico" : 0,
+            "Siniestro" : -1,
+            "Fantasma" : 0,
+            "Veneno" : -2,
+            "Bicho" : -1,
+            "Lucha" : -1,
+            "Hielo" : 0,
+            "Normal" : 1
+        }
+        SeleccionDefensiva = True
+
+    elif PonderarEleccion == "2" or PonderarEleccion == "No":
+        print("\nPONDERACIÓN AUTOMÁTICA\n")
+        Tipos ={
+            "Agua": -1,
+            "Fuego" : -1,
+            "Planta" : -1,
+            "Electrico" : -1,
+            "Volador" : -1,
+            "Tierra" : -1,
+            "Roca" : -1,
+            "Acero" : -1,
+            "Hada" : -1,
+            "Dragon" : -1,
+            "Psiquico" : -1,
+            "Siniestro" : -1,
+            "Fantasma" : -1,
+            "Veneno" : -1,
+            "Bicho" : -1,
+            "Lucha" : -1,
+            "Hielo" : -1,
+            "Normal" : -1
+        }
+        SeleccionDefensiva = False
+        
+    elif PonderarEleccion == "3" or PonderarEleccion == "Ponderarla yo mismo":
+        tipos_Disponibles =[
+            "Acero", "Agua", "Bicho", "Dragon", "Eléctrico", "Fantasma", "Fuego",
+            "Hada", "Hielo", "Lucha", "Normal", "Planta", "Psiquico", "Roca",
+            "Siniestro", "Tierra", "Veneno", "Volador"
+        ]
+
+        Tipos = {}
+
+        for tipo in tipos_Disponibles:
+            while True:
+                try:
+                    Valor = int(input(f"Ingrese una puntuación para el {tipo}:  "))
+                    Tipos[tipo] = Valor
+                except ValueError:
+                    print("Por favor, ingrese un número entero válido.")
+
+    break
 
 
 def CambiarFuego(Tipos):
@@ -90,7 +151,7 @@ def CambiarAgua(Tipos):
     #Debil para resistir
     Tipos["Electrico"] -= 1
     Tipos["Planta"] -= 1
-
+    
     #Fuerte para atacar
     Tipos["Fuego"] += 1
     Tipos["Roca"] += 1
