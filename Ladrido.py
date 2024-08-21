@@ -44,6 +44,15 @@ def Generar_Arf():
     ARF += ("F" * Generar_LongitudAleatoria(1, 2))
     return ARF
 
+def Generar_Bark():
+    BARK = "BARK"
+    if Probabilidad_Aleatoria(30): BARK += (" BARK")
+    return BARK
+
+def Generar_Waw():
+    WAW =("WAW" * Generar_LongitudAleatoria(1, 2))
+    return WAW
+
 print("=" * 50)
 print("Programa que te ladra acá bien acá")
 Repeticiones = int(input("Numero de repeticiones:  "))
@@ -57,6 +66,9 @@ for i in range(Repeticiones):
     if Probabilidad_Aleatoria(70): Ladrido += " " + Generar_Grr()
     if Probabilidad_Aleatoria(60): Ladrido += " " + Generar_Woof()
     if Probabilidad_Aleatoria(20): Ladrido += " " + Generar_Arf()
-    if Probabilidad_Aleatoria(30): Ladrido += " " + Generar_Meow()
+    if Probabilidad_Aleatoria(10): Ladrido += " " + Generar_Meow()
+    if Probabilidad_Aleatoria(35): Ladrido += " " + Generar_Bark()
+    if Probabilidad_Aleatoria(5): Ladrido += " " + Generar_Waw()
 print(Ladrido)
 print("\n\n")
+input()

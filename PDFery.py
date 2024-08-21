@@ -1,5 +1,6 @@
 import tkinter as tk
 import os
+import PyPDF2
 import fitz  # PyMuPDF
 from docx import Document
 from tkinter import filedialog
@@ -19,6 +20,14 @@ def seleccionar_archivo(extension=".pdf"):
     else:
         print("No se seleccionó ningún archivo.")
         return None
+
+
+def contar_paginas(archivo):
+    with open(archivo, "rb") as Documento:
+        Instancia_Lectura = PyPDF2.PdfReader(Documento)
+        Numero_Paginas = len(Instancia_Lectura.pages)
+        return Numero_Paginas
+
 
 # Función para extraer un sub-PDF
 def extraer_subpdf(archivo_original, primera_pagina, ultima_pagina, archivo_salida):
@@ -161,6 +170,7 @@ print("2.- Juntar 2 PDFs")
 print("3.- Convertir Word a PDF.")
 print("4.- Convertir PDF a Word")
 print("5.- Girar un PDF")
+print("6.- Quitarle portada a un PDF")
 Operación = int(input("  Respuesta:  "))
 
 if Operación == 1:
@@ -243,3 +253,11 @@ if Operación == 5:
     if DecisionCuantasGirar == 2:
         PaginaEspecifica = int(input("¿Qué página es la que quiere girar:  "))
         GirarPDF_PaginaEspecifica(archivo_pdf, PaginaEspecifica, GradosGirar)
+
+if Operación == 6:
+    archivo_pdf = seleccionar_archivo()
+    Cantidad_Paginas = contar_paginas(archivo_pdf)
+    nombre_subPDF = input("Ingrese el nombre que le quiere poner a su nuevo PDF:  ")
+
+    if archivo_pdf:
+        extraer_subpdf(archivo_pdf, 2, Cantidad_Paginas, nombre_subPDF)
