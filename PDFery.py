@@ -162,102 +162,102 @@ def GirarPDF_PaginaEspecifica(Archivo, Pagina_Girar, Grados):
         print(f"Error al girar la página del archivo PDF: {e}")
 
 
+while(True):
+    print("==================== MODIFICADOR DE PDFs ====================")
+    print("Seleccione su operación con el PDF:")
+    print("1.- Extraer un Sub-PDF")
+    print("2.- Juntar 2 PDFs")
+    print("3.- Convertir Word a PDF.")
+    print("4.- Convertir PDF a Word")
+    print("5.- Girar un PDF")
+    print("6.- Quitarle portada a un PDF")
+    Operación = int(input("  Respuesta:  "))
 
-print("==================== MODIFICADOR DE PDFs ====================")
-print("Seleccione su operación con el PDF:")
-print("1.- Extraer un Sub-PDF")
-print("2.- Juntar 2 PDFs")
-print("3.- Convertir Word a PDF.")
-print("4.- Convertir PDF a Word")
-print("5.- Girar un PDF")
-print("6.- Quitarle portada a un PDF")
-Operación = int(input("  Respuesta:  "))
+    if Operación == 1:
+        print("Usted ha seleccionado la primera opción.")
+        print("Para extraer páginas específicas de un PDF")
+        print("")
+        print("A continuación se seleccionará su archivo")
+        archivo_pdf = seleccionar_archivo()
+        if archivo_pdf:
+            primera_pagina = int(input("Ingrese el número de la primera página a extraer: "))
+            ultima_pagina = int(input("Ingrese el número de la última página a extraer: "))
+            nombre_subPDF = input("Ingrese el nombre que le quiere poner a su nuevo PDF recortado:  ")
+            extraer_subpdf(archivo_pdf, primera_pagina, ultima_pagina, nombre_subPDF)
+            print(f"Extrayendo páginas del {primera_pagina} al {ultima_pagina} del archivo {archivo_pdf}.")
 
-if Operación == 1:
-    print("Usted ha seleccionado la primera opción.")
-    print("Para extraer páginas específicas de un PDF")
-    print("")
-    print("A continuación se seleccionará su archivo")
-    archivo_pdf = seleccionar_archivo()
-    if archivo_pdf:
-        primera_pagina = int(input("Ingrese el número de la primera página a extraer: "))
-        ultima_pagina = int(input("Ingrese el número de la última página a extraer: "))
-        nombre_subPDF = input("Ingrese el nombre que le quiere poner a su nuevo PDF recortado:  ")
-        extraer_subpdf(archivo_pdf, primera_pagina, ultima_pagina, nombre_subPDF)
-        print(f"Extrayendo páginas del {primera_pagina} al {ultima_pagina} del archivo {archivo_pdf}.")
+    if Operación == 2:
+        print("Usted ha seleccionado la segunda opción.")
+        print("Para unir dos PDFs")
+        print("")
+        print("A continuación se seleccionarán los archivos PDF")
+        archivo_pdf1 = seleccionar_archivo()
+        archivo_pdf2 = seleccionar_archivo()
+        if archivo_pdf1 and archivo_pdf2:
+            nombre_subPDF = input("Ingrese el nombre del archivo de salida del PDF combinado: ")
+            unir_pdfs(archivo_pdf1, archivo_pdf2, nombre_subPDF)
 
-if Operación == 2:
-    print("Usted ha seleccionado la segunda opción.")
-    print("Para unir dos PDFs")
-    print("")
-    print("A continuación se seleccionarán los archivos PDF")
-    archivo_pdf1 = seleccionar_archivo()
-    archivo_pdf2 = seleccionar_archivo()
-    if archivo_pdf1 and archivo_pdf2:
-        nombre_subPDF = input("Ingrese el nombre del archivo de salida del PDF combinado: ")
-        unir_pdfs(archivo_pdf1, archivo_pdf2, nombre_subPDF)
+    if Operación == 3:
+        print("¿Quiere convertir uno o más de uno?")
+        print("1.- Sólo uno")
+        print("2.- Varios.")
+        CantidadPDFs = int(input("Respuesta: "))
+        if CantidadPDFs == 1:
+            print("Se convertirá un Word a PDF.")
+            print("Seleccione su archivo Word: ")
+            archivoWord_a_convertir = seleccionar_archivo(".docx")
+            if archivoWord_a_convertir:
+                nombreFinal = input("Ingrese el nombre que tendrá su PDF al final: ")
+                convertir_word(archivoWord_a_convertir, nombreFinal)
+        if CantidadPDFs == 2:
+            print("Se convertirán varios Word a PDF.")
 
-if Operación == 3:
-    print("¿Quiere convertir uno o más de uno?")
-    print("1.- Sólo uno")
-    print("2.- Varios.")
-    CantidadPDFs = int(input("Respuesta: "))
-    if CantidadPDFs == 1:
-        print("Se convertirá un Word a PDF.")
-        print("Seleccione su archivo Word: ")
-        archivoWord_a_convertir = seleccionar_archivo(".docx")
-        if archivoWord_a_convertir:
-            nombreFinal = input("Ingrese el nombre que tendrá su PDF al final: ")
-            convertir_word(archivoWord_a_convertir, nombreFinal)
-    if CantidadPDFs == 2:
-        print("Se convertirán varios Word a PDF.")
+    if Operación == 4:
+        print("¿Quiere converir uno o más de uno?")
+        print("1.- Sólo uno")
+        print("2.- Varios.")
+        CantidadPDFs = int(input("Respuesta: "))
+        if CantidadPDFs == 1:
+            print("Se convertirá un documento de PDF a Word.")
+            print("Seleccione su archivo...")
+            archivoPDF_a_convertir = seleccionar_archivo(".pdf")
+            if archivoPDF_a_convertir:
+                nombreFinal = input("Ingrese el nombre que tendrá su archivo Word al final: ")
+                convertir_pdf_a_word(archivoPDF_a_convertir, nombreFinal)
+        elif CantidadPDFs == 2:
+            print("Las cosas de varios PDF.")
 
-if Operación == 4:
-    print("¿Quiere converir uno o más de uno?")
-    print("1.- Sólo uno")
-    print("2.- Varios.")
-    CantidadPDFs = int(input("Respuesta: "))
-    if CantidadPDFs == 1:
-        print("Se convertirá un documento de PDF a Word.")
+    if Operación == 5:
+        print("Se girará su documento de PDF.")
         print("Seleccione su archivo...")
-        archivoPDF_a_convertir = seleccionar_archivo(".pdf")
-        if archivoPDF_a_convertir:
-            nombreFinal = input("Ingrese el nombre que tendrá su archivo Word al final: ")
-            convertir_pdf_a_word(archivoPDF_a_convertir, nombreFinal)
-    elif CantidadPDFs == 2:
-        print("Las cosas de varios PDF.")
+        archivo_pdf = seleccionar_archivo(".pdf")
 
-if Operación == 5:
-    print("Se girará su documento de PDF.")
-    print("Seleccione su archivo...")
-    archivo_pdf = seleccionar_archivo(".pdf")
+        print("\n¿Desea girar todo el PDF o sólo una página del documento?")
+        print("1.- Todo el PDF entero con todas sus páginas")
+        print("2.- Una página específica de todo el PDF.")
+        DecisionCuantasGirar = int(input("Respuesta:  "))
 
-    print("\n¿Desea girar todo el PDF o sólo una página del documento?")
-    print("1.- Todo el PDF entero con todas sus páginas")
-    print("2.- Una página específica de todo el PDF.")
-    DecisionCuantasGirar = int(input("Respuesta:  "))
+        print("\nAhora seleccione la cantidad de grados que quiere girar.")
+        print("1.- 90° a la izquierda")
+        print("2.- 90° a la derecha")
+        print("3.- 180° (Vuelta vertical)")
+        print("4.- Una cantidad específica de grados (A especificar)")
+        GradosDecision = int(input("Respuesta:  "))
+        if GradosDecision == 1: GradosGirar = 90
+        elif GradosDecision == 2: GradosGirar = 270
+        elif GradosDecision == 3: GradosGirar= 180
+        elif GradosDecision == 4: GradosGirar = float(input("Ingrese los grados:  "))
 
-    print("\nAhora seleccione la cantidad de grados que quiere girar.")
-    print("1.- 90° a la izquierda")
-    print("2.- 90° a la derecha")
-    print("3.- 180° (Vuelta vertical)")
-    print("4.- Una cantidad específica de grados (A especificar)")
-    GradosDecision = int(input("Respuesta:  "))
-    if GradosDecision == 1: GradosGirar = 90
-    elif GradosDecision == 2: GradosGirar = 270
-    elif GradosDecision == 3: GradosGirar= 180
-    elif GradosDecision == 4: GradosGirar = float(input("Ingrese los grados:  "))
+        if DecisionCuantasGirar == 1:
+            GirarPDF_Entero(archivo_pdf, GradosGirar)
+        if DecisionCuantasGirar == 2:
+            PaginaEspecifica = int(input("¿Qué página es la que quiere girar:  "))
+            GirarPDF_PaginaEspecifica(archivo_pdf, PaginaEspecifica, GradosGirar)
 
-    if DecisionCuantasGirar == 1:
-        GirarPDF_Entero(archivo_pdf, GradosGirar)
-    if DecisionCuantasGirar == 2:
-        PaginaEspecifica = int(input("¿Qué página es la que quiere girar:  "))
-        GirarPDF_PaginaEspecifica(archivo_pdf, PaginaEspecifica, GradosGirar)
+    if Operación == 6:
+        archivo_pdf = seleccionar_archivo()
+        Cantidad_Paginas = contar_paginas(archivo_pdf)
+        nombre_subPDF = input("Ingrese el nombre que le quiere poner a su nuevo PDF:  ")
 
-if Operación == 6:
-    archivo_pdf = seleccionar_archivo()
-    Cantidad_Paginas = contar_paginas(archivo_pdf)
-    nombre_subPDF = input("Ingrese el nombre que le quiere poner a su nuevo PDF:  ")
-
-    if archivo_pdf:
-        extraer_subpdf(archivo_pdf, 2, Cantidad_Paginas, nombre_subPDF)
+        if archivo_pdf:
+            extraer_subpdf(archivo_pdf, 2, Cantidad_Paginas, nombre_subPDF)

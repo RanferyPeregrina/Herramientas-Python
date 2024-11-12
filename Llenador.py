@@ -3,6 +3,11 @@
 #Es prácticamente un virus.
 
 #Pero sirve para probar por ejemplo, memorias USB
+
+import os
+
+DirectorioActual = os.getcwd()
+print(f"Estamos trabajando en: {DirectorioActual}")
 def Espacio_Llenar(Opcion):
 
     if Opcion == 1: Multiplicador = 1               #1Mb
@@ -34,13 +39,23 @@ def Espacio_Leer(Opcion):
     if Opcion == 9: Multiplicador = Opcion
     
 
-    print(f"Se espera encontrar {Opcion + 1} archivos.")
+    print(f"Se espera encontrar {Multiplicador} archivos.")
+    Contador_Bien = 0
+    Contador_Mal = 0
     contenido_Correcto = "1234567890" * (1024 * 1024 // 10)
-    for i in range(Opcion):
+    for i in range(Multiplicador):
         with open(f"Basura{i}.txt", "r") as Archivo:
             contenido_Leido = Archivo.read()
-        if contenido_Correcto == contenido_Leido: print("Todo Bien")
-        else: print("Todo mal.")
+        if contenido_Correcto == contenido_Leido: 
+            print("Todo Bien")
+            Contador_Bien += 1
+        else: 
+            print(f"Todo mal., archivo: {i}")
+            Contador_Mal += 1
+            print(f"Errores hasta ahora: {Contador_Mal}")
+    print(f"Archivos buenos: {Contador_Bien}, Archivos malos: {Contador_Mal}")
+        
+
 
 
 print("="*50)
@@ -79,3 +94,4 @@ elif Respuesta == "2":
     Opcion = int(input("Respuesta:  "))
     Espacio_Leer(Opcion)
 
+input()
