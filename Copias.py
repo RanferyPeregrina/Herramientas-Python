@@ -1,13 +1,24 @@
-CantidadMayoreo = 10
-Precio_BlancoNegro = 1
-Precio_Color = 4
+import time
 
-HojasColor = int(input("Cantidad de hojas a color:  "))
-HojasBlancoNegro = int(input("Cantidad de hojasen Blanco  Negro:  "))
+while True:
+    CantidadMayoreo = 10
+    Precio_BlancoNegro = 1
+    Precio_Color = 4
 
-if HojasBlancoNegro > CantidadMayoreo:
-    Precio_BlancoNegro = 0.4
+    print("\n ======================================= ")
+    HojasColor = int(input("Cantidad de hojas a color:  "))
+    HojasBlancoNegro = int(input("Cantidad de hojasen Blanco  Negro:  "))
+    print(" ======================================= ")
 
-Precio = (Precio_BlancoNegro * HojasBlancoNegro) + (Precio_Color * HojasColor)
+    if HojasBlancoNegro > CantidadMayoreo:
+        Precio_BlancoNegro = 0.4
 
-print(f"Se cobran:  {Precio}")
+    Precio = (Precio_BlancoNegro * HojasBlancoNegro) + (Precio_Color * HojasColor)
+
+    print("\n ======================================= ")
+    print(f"Se cobran:  {Precio}")
+    print(" ======================================= ")
+
+
+    input()
+    print("\n"*10)
