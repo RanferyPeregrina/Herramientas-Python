@@ -1,7 +1,45 @@
+import random
+
 Cartas_EnJuego = [];
 Cartas_PorJugar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 Cartas_Enemigo = [];
 Cartas_Propias = [];
+
+
+def JuegoContar():
+    Continuar = True
+
+    while Continuar == 1:
+        CartasPosibles = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        random.shuffle(CartasPosibles)
+        
+        print(f"Primer carta: {CartasPosibles[1]}")
+        Sumatoria = CartasPosibles[1]
+        CartasPosibles.remove(CartasPosibles[1])
+
+        for Carta in CartasPosibles:
+
+                if (Carta + Sumatoria) <= 21:
+                    Sumatoria = Sumatoria + Carta
+                    print(f"Más: {Carta}")
+
+        Respuesta = int(input("Resultado:  "))
+
+        if Respuesta == Sumatoria:
+            print("¡CORRECTO!🎉")
+        else: print("Nah.");
+        print("\n\n")
+
+
+
+
+        print("¿Quiere continuar?")
+        print("1.- Sí")
+        print("2.- No")
+        Continuar = int(input("Respuesta:  "))
+        print("\n\n")
+    
+    
 
 def IniciarJuego():
     Carta_Inicial = int(input("Cuál es la carta que te tocó al principio:  "))
@@ -66,5 +104,16 @@ def ImprimirTodo():
     print(f"Cartas enemigas:  {Cartas_Enemigo} con {sum(Cartas_Enemigo)} puntos")
     print(f"Cartas posibles cartas disponibles:  {Cartas_PorJugar}")
 
-IniciarJuego()
+print("=" * 20)
+print("      Twenty One       ")
+print("=" * 20)
+
+print("1.- Jugar 21")
+print("2.- Practicar sumas de 21")
+Eleccion = int(input("Respuesta:  "))
+print("\n" * 10)
+if Eleccion == 1:
+    Eleccion()
+elif Eleccion == 2:
+    JuegoContar()
 
