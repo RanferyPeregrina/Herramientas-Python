@@ -1,7 +1,11 @@
+# #Hola soy Ran.
+# No olviden importar con "pip install os tkiner pypdf2 fitz docx docx2 pycryptodome python-docx"
+
+
 import tkinter as tk
 import os
-import PyPDF2
 import fitz  # PyMuPDF
+import PyPDF2
 from docx import Document
 from tkinter import filedialog
 from PyPDF2 import PdfReader , PdfWriter

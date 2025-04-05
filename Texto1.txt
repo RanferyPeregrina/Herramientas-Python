@@ -1,0 +1,9 @@
+Holaa
+Este es un texto de ejemplo
+Pero está como raro como que sólo es de ejemplo y así
+
+&&&&&&&Aquí inicia el texto que sí tiene que salir 1
+Y este es el contenido de ese texto y todo eso
+Voy a tratar de poner cadenas diferentes&%&%&%&Y esto por ejemplo ya no tendría que salir porque pues es de otro pedo.
+Este texto es insignificante&&&&&&&Aquí inicia otro texto que también tiene que salir2 Pero
+en este caso este no dice nada&%&%&%&
