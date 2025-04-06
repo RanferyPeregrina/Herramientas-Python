@@ -20,8 +20,8 @@ def MenuOperacion(Algo):
     print("1.- Traducor de ASCII a Texto")
     print("2.- Traducir de Texto a ASCII")
     Respuesta = int(input("Respuesta:  "))
-    if Respuesta == 1: Convertir_Texto(Algo)
-    elif Respuesta == 2: Convertir_ASCII(Algo)
+    if Respuesta == 1: Traducir_ASCII(Algo)
+    elif Respuesta == 2: Traducir_Texto(Algo)
 
 def Pedir_Codigo():
     
@@ -29,18 +29,25 @@ def Pedir_Codigo():
     print("Para detenerse,  sólo escriba un espacio vacío.")
     Palabra_ASCII = []
     i = 1
-    while True:
-        Letra = input("Código de su caracter:  ")
-        if Letra == " ": break
-        Caracter = int(Letra)
-        Palabra_ASCII.append(Caracter)
-        if i > 30: 
-            print("Su cadena lleva más de 30 caracteres.")
-            print("Si quiere terminarlo, sólo escriba un espacio y presione Enter\n")
-            i = 0
-    print()
-    print(f"El código recibido entonces fue: {Palabra_ASCII}")
-    return Palabra_ASCII
+    try: 
+        while True:
+            Letra = input("Código de su caracter:  ")
+            if Letra == " ": break
+            Caracter = int(Letra)
+            Palabra_ASCII.append(Caracter)
+            if i > 30: 
+                print("Su cadena lleva más de 30 caracteres.")
+                print("Si quiere terminarlo, sólo escriba un espacio y presione Enter\n")
+                i = 0
+        print()
+        print(f"El código recibido entonces fue: {Palabra_ASCII}")
+        return Palabra_ASCII
+    except:
+        print("Oh, algo salió mal.")
+        print("¿Estás seguro que lo que estás ingresando es un código de ASCII?")
+        print("Regresando al menú inicial...")
+        print()
+        MenuIngreso()
         
 def Pedir_Palabra():
     Palabra = input("Ingrese su palabra:  ")
@@ -54,11 +61,31 @@ def Pedir_Archivo():
         print(f"Nombre de archivo corregido como {Archivo}")
     print(f"Buscando {Archivo}")
 
-    Archivo = open(Archivo)
-    print(Archivo)
+    try:
+        with open(Archivo, "r", encoding = "utf-8") as Archivo:
+            TextoLeido = Archivo.read()
+
+            print("\n¿Imprimir contenido leído?")
+            print("1.- Sí")
+            print("2.- No")
+            Impresion = int(input("Respuesta:  "))
+            print("===================================")
+            print()
+
+            if Impresion == 1:
+                print(TextoLeido)
+                print("\n====================================")
+
+        return TextoLeido
+    except FileNotFoundError:
+        print("El archivo no existe.")
+        print()
+        MenuIngreso()
+
+
 
 #Convierte de ASCII a Texto
-def Convertir_Texto(Palabra_ASCII):
+def Traducir_ASCII(Palabra_ASCII):
     Palabra = ""
     for Caracter in Palabra_ASCII:
         Letra = str(Caracter)
@@ -66,7 +93,7 @@ def Convertir_Texto(Palabra_ASCII):
     print(f"La palabra leída es: {Palabra}")
     return Palabra
 #Convierte de Texto a ASCII
-def Convertir_ASCII(Palabra):
+def Traducir_Texto(Palabra):
     Palabra_ASCII = []
     for Letra in Palabra:
         Letra_ASCII = ord(Letra)
