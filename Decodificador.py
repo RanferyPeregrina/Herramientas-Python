@@ -3,14 +3,22 @@ def MenuIngreso():
     print("1.- Código")
     print("2.- Palabra")
     print("3.- Documento de texto")
-    Respuesta = int(input("Respuesta:  "))
+    try: Respuesta = int(input("Respuesta:  "))
+    except:
+        print("Error, respuesta no válida.")
+        print("Seleccione un número.\n")
+        MenuIngreso()
 
     if Respuesta == 1:
         Algo = Pedir_Codigo()
-    if Respuesta == 2:
+    elif Respuesta == 2:
         Algo = Pedir_Palabra()
-    if Respuesta == 3:
+    elif Respuesta == 3:
         Algo = Pedir_Archivo()
+    else:
+        print("Error, respuesta no válida.")
+        print("Seleccione un número válido.\n")
+        MenuIngreso()
     return Algo
 
 def MenuOperacion(Algo):
@@ -42,6 +50,9 @@ def MenuPost(Algo):
     elif Respuesta == 2: Traducir_ASCII(Algo)
     elif Respuesta == 3: print("Función en desarrollo")
 
+    MenuPost(Algo)
+
+    return(Algo)
 
 
 def Pedir_Codigo():
@@ -121,13 +132,17 @@ def Pedir_Archivo():
 #Convierte de ASCII a Texto
 def Traducir_ASCII(Palabra_ASCII):
 
-    
-
-    Palabra = ""
-    for Caracter in Palabra_ASCII:
-        Letra = str(Caracter)
-        Palabra += Letra
-    print(f"La palabra leída es: {Palabra}")
+    if type(Palabra_ASCII) == list:
+        Palabra = ""
+        for Caracter in Palabra_ASCII:
+            Letra = str(Caracter)
+            Palabra += Letra
+        print(f"La palabra leída es: {Palabra}")
+    else:
+        print("Lo que ingresaste no es una lista.")
+        print("Vuelve a intentar todo.")
+        Palabra = Palabra_ASCII
+        MenuOperacion(Palabra_ASCII)
     return Palabra
 #Convierte de Texto a ASCII
 def Traducir_Texto(Palabra):
@@ -158,4 +173,5 @@ def Codificar(Texto):
     
 Algo = MenuIngreso()
 Algo = MenuOperacion(Algo)
-MenuPost(Algo)
+Algo = MenuPost(Algo)
+
