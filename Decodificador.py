@@ -14,14 +14,21 @@ def MenuIngreso():
         Algo = Pedir_Archivo()
     return Algo
 
-
 def MenuOperacion(Algo):
     print("\nIngrese la operación que hará con eso")
     print("1.- Traducor de ASCII a Texto")
     print("2.- Traducir de Texto a ASCII")
+    print("3.- Codificar texto.")
     Respuesta = int(input("Respuesta:  "))
     if Respuesta == 1: Traducir_ASCII(Algo)
     elif Respuesta == 2: Traducir_Texto(Algo)
+    elif Respuesta == 3: Codificar(Algo)
+
+    else:
+        print("Respuesta no válida.")
+        print("Ingrese de nuevo.\n")
+        MenuOperacion(Algo)
+
 
 def Pedir_Codigo():
     
@@ -31,14 +38,28 @@ def Pedir_Codigo():
     i = 1
     try: 
         while True:
-            Letra = input("Código de su caracter:  ")
+            #Validación 1: Comprobar si seguir
+            Letra = input(f"Código de su caracter [{i}]:  ")
             if Letra == " ": break
+
             Caracter = int(Letra)
-            Palabra_ASCII.append(Caracter)
+
+            #Validación 3: Comprobar si está dentro de los ASCII
+            if Caracter > 255 or Caracter <0:
+                print("Caracter no válido. Excede los ASCII")
+                print("Vuelva a intentarlo TODO.\n")
+                Pedir_Codigo()
+
+            #Validación 4: Comprobar si ya llevas muchas letras... Por si a caso.
             if i > 30: 
                 print("Su cadena lleva más de 30 caracteres.")
                 print("Si quiere terminarlo, sólo escriba un espacio y presione Enter\n")
                 i = 0
+
+            #Añadirlo a la lista como número.
+            Palabra_ASCII.append(Caracter)
+            i+= 1
+
         print()
         print(f"El código recibido entonces fue: {Palabra_ASCII}")
         return Palabra_ASCII
@@ -83,7 +104,6 @@ def Pedir_Archivo():
         MenuIngreso()
 
 
-
 #Convierte de ASCII a Texto
 def Traducir_ASCII(Palabra_ASCII):
     Palabra = ""
@@ -101,5 +121,16 @@ def Traducir_Texto(Palabra):
     print(Palabra_ASCII)
     return Palabra_ASCII
 
+
+def Codificar(Texto):
+    if type(Texto) == str:
+        print("El texto ingresado es texto.")
+        print("Convirtiendo a ASCII...")
+        Texto = Traducir_Texto(Texto)
+
+
+    return Texto
+
+    
 Algo = MenuIngreso()
 Algo = MenuOperacion(Algo)
