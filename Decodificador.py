@@ -1,4 +1,3 @@
-
 def MenuIngreso():
     print("Código o palabra?")
     print("1.- Código")
@@ -20,14 +19,29 @@ def MenuOperacion(Algo):
     print("2.- Traducir de Texto a ASCII")
     print("3.- Codificar texto.")
     Respuesta = int(input("Respuesta:  "))
-    if Respuesta == 1: Traducir_ASCII(Algo)
-    elif Respuesta == 2: Traducir_Texto(Algo)
-    elif Respuesta == 3: Codificar(Algo)
+    if Respuesta == 1: Algo = Traducir_ASCII(Algo)
+    elif Respuesta == 2: Algo = Traducir_Texto(Algo)
+    elif Respuesta == 3: Algo = Codificar(Algo)
 
     else:
         print("Respuesta no válida.")
         print("Ingrese de nuevo.\n")
         MenuOperacion(Algo)
+    
+    return Algo
+
+def MenuPost(Algo):
+    print("=" * 30)
+    print("¿Desea hacer algo con este texto?")
+    print("1.- Mostrarlo")
+    print("2.- Traducirlo")
+    print("3.- Modificarlo")
+
+    Respuesta = int(input("Respuesta:  "))
+    if Respuesta == 1: print(f"\n{Algo}")
+    elif Respuesta == 2: Traducir_ASCII(Algo)
+    elif Respuesta == 3: print("Función en desarrollo")
+
 
 
 def Pedir_Codigo():
@@ -106,6 +120,9 @@ def Pedir_Archivo():
 
 #Convierte de ASCII a Texto
 def Traducir_ASCII(Palabra_ASCII):
+
+    
+
     Palabra = ""
     for Caracter in Palabra_ASCII:
         Letra = str(Caracter)
@@ -123,14 +140,22 @@ def Traducir_Texto(Palabra):
 
 
 def Codificar(Texto):
+    Texto_Nuevo = []
+
     if type(Texto) == str:
         print("El texto ingresado es texto.")
         print("Convirtiendo a ASCII...")
         Texto = Traducir_Texto(Texto)
 
+    for Caracter in Texto:
+        NuevoCaracter = Caracter + 1
+        Texto_Nuevo.append(NuevoCaracter)
 
-    return Texto
+    print("\nNuevo texto:")
+    print(Texto_Nuevo)
+    return Texto_Nuevo
 
     
 Algo = MenuIngreso()
 Algo = MenuOperacion(Algo)
+MenuPost(Algo)
