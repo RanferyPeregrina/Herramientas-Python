@@ -28,9 +28,29 @@ def MenuOperacion(Algo):
     print("3.- Codificar texto.")
     print("4.- Mostrar contenido.")
     Respuesta = int(input("Respuesta:  "))
-    if Respuesta == 1: Algo = Traducir_ASCII(Algo)
-    elif Respuesta == 2: Algo = Traducir_Texto(Algo)
-    elif Respuesta == 3: Algo = Codificar(Algo)
+    if Respuesta == 1: #Traducir ASCII
+        Algo = Traducir_ASCII(Algo)
+        print(f"Palabra leída: {Algo}")
+    elif Respuesta == 2: #Traducir texto
+        Algo = Traducir_Texto(Algo)
+        if len(Algo) > 100:
+            print("El contenido es algo largo. ¿Aún así quiere imprimirlo?")
+            print("1.- Sí")
+            print("2.- No")
+            Respuesta = int(input("Respuesta:  "))
+            if Respuesta == 1:
+                print(Algo)
+            elif Respuesta == 2: print("Ok")
+    elif Respuesta == 3: #Codificar
+        Algo = Codificar(Algo)
+        print("¿Imprimir texto codificado?")
+        print("1.- Sí")
+        print("2.- No")
+        Respuesta = int(input("Respuesta:  "))
+        if Respuesta == 1:
+            print("\n===================================\n")
+            print(Algo)
+            print("\n===================================\n")
     elif Respuesta == 4: Algo = Mostrar(Algo)
 
     else:
@@ -136,34 +156,43 @@ def Traducir_Texto(Palabra):
     for Letra in Palabra:
         Letra_ASCII = ord(Letra)
         Palabra_ASCII.append(Letra_ASCII)
-
-    print("\nCadena convertida a ASCII con éxico.")
-    print("¿Imprimir?")
-    print("1.- Sí")
-    print("2.- No")
-    Respuesta = int(input("Respuesta:  "))
-    if Respuesta == 1: print(Palabra_ASCII)
     return Palabra_ASCII
 
 
 def Codificar(Texto):
     Texto_Nuevo = []
-    Vector = input("Ingrese contraseña de codificación:  ")
+    
+    while True:
+        Vector = input("Ingrese contraseña de codificación:  ")
+        if len(Vector) < 8: print("Contraseña muy pequeña. Intente de nuevo")
+        else: break
+
     Vector = Traducir_Texto(Vector)
     print(f"Vector traducido como: {Vector}")
 
+    #El primer número de la contraseña nos dice cuánto sumar.
+    Suma = Vector[0]
+    #El tercer número de la contraseña nos da un multiplicador.
+    Multiplicador = Vector[2]
+    #El séptimo número de la contraseña nos da 
+
+
     if type(Texto) == str:
-        print("El texto ingresado es texto.")
-        print("Convirtiendo a ASCII...")
         Texto = Traducir_Texto(Texto)
 
     for Caracter in Texto:
-        NuevoCaracter = Caracter + 1
+        NuevoCaracter = ((Caracter * Multiplicador) + Suma) % 255
         Texto_Nuevo.append(NuevoCaracter)
-
-    print("\nNuevo texto:")
-    print(Texto_Nuevo)
     return Texto_Nuevo
+
+def Decodificar(Texto):
+    while True:
+        Vector = input("Ingrese contraseña de codificación:  ")
+        if len(Vector) < 8: print("Contraseña muy pequeña. Intente de nuevo")
+        else: break
+
+    
+
 
 def Mostrar(Algo):
     print("\n================================================\n")
