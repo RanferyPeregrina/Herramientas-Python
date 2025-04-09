@@ -158,10 +158,25 @@ def Codificar(Texto):
 
 def Mostrar(Algo):
     print("\n================================================\n")
-    print(f"Mostando valor de la cadena: {Algo}")
-    if type(Algo) == list: print("En este momento es una lista")
-    elif type(Algo) == str: print("En este momento es una cadena")
-    else: print("... Está en un estado desconocido")
+
+    #Si es una cadena, lo avisa y lo imprime
+    if type(Algo) == str: 
+        print("En este momento es una cadena")
+        print(f"\n{Algo}")
+    #Si es una lista y no es muy larga la imprime
+    elif type(Algo) == list: 
+        print("En este momento es una lista")
+        if len(Algo) > 100:
+            print("\nSon más de 100 caracteres. ¿Seguro que quieres imprimir?")
+            print("1.- Sí")
+            print("2.- No")
+            Respuesta = int(input("Respuesta:  "))
+            if Respuesta == 1: print(Algo)
+            elif Respuesta != 1: print("Ok.")
+    #Si no es nada... Algo salió mal y avisa.
+    else:
+        print("... Está en un estado desconocido")
+        MenuIngreso()
     print("\n================================================\n")
     
 Algo = MenuIngreso()

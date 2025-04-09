@@ -1,3 +1,9 @@
 Hola
 Texto leído
 Renglón 3
+
+Ok aquí voy a poner toda la boca de barbaridades que quiera poner porque sólo me interesa hacer relleno para hacer un montón de caracteres y que tenga que contarlos todos el programa que cuenta los caracteres en ASCII.
+lorem200
+Oh, no se puso el Lorem jajaja
+
+Estoy comprobando saltos de línea. Se ven chidos.
