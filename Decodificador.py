@@ -123,7 +123,7 @@ def Traducir_ASCII(Palabra_ASCII):
         for Caracter in Palabra_ASCII:
             Letra = chr(Caracter)
             Palabra += Letra
-        print(f"La palabra leída es: {Palabra}")
+        print(f"\nLa palabra leída es: {Palabra}\n")
     else:
         print("Lo que ingresaste no es una lista.")
         print("Vuelve a intentar todo.")
@@ -136,12 +136,21 @@ def Traducir_Texto(Palabra):
     for Letra in Palabra:
         Letra_ASCII = ord(Letra)
         Palabra_ASCII.append(Letra_ASCII)
-    print(Palabra_ASCII)
+
+    print("\nCadena convertida a ASCII con éxico.")
+    print("¿Imprimir?")
+    print("1.- Sí")
+    print("2.- No")
+    Respuesta = int(input("Respuesta:  "))
+    if Respuesta == 1: print(Palabra_ASCII)
     return Palabra_ASCII
 
 
 def Codificar(Texto):
     Texto_Nuevo = []
+    Vector = input("Ingrese contraseña de codificación:  ")
+    Vector = Traducir_Texto(Vector)
+    print(f"Vector traducido como: {Vector}")
 
     if type(Texto) == str:
         print("El texto ingresado es texto.")
@@ -179,6 +188,8 @@ def Mostrar(Algo):
         MenuIngreso()
     print("\n================================================\n")
     
+
+
 Algo = MenuIngreso()
 while True:
     Algo = MenuOperacion(Algo)
