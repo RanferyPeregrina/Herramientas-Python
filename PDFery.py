@@ -1,5 +1,5 @@
 # #Hola soy Ran.
-# No olviden importar con "pip install os tkiner pypdf2 fitz docx docx2 pycryptodome python-docx"
+# No olviden importar con "pip install PyPDF2 PyMuPDF docx docx2pdf pycryptodome python-docx"
 
 
 import tkinter as tk
@@ -57,6 +57,56 @@ def extraer_subpdf(archivo_original, primera_pagina, ultima_pagina, archivo_sali
             pdf_writer.write(output_pdf)
         
         print(f"Se ha creado el sub-PDF '{archivo_salida}' con las páginas del {primera_pagina} al {ultima_pagina} del archivo original '{archivo_original}'.")
+        print(f"Lo puedes encontrar en la ruta: {ruta_completa}")
+    except Exception as e:
+        print(f"Error al extraer el sub-PDF: {e}")
+
+def QuitarPares(pdf, Cantidad_Paginas, archivo_salida):
+    try:
+        pdf_reader = PdfReader (open(pdf, 'rb'))
+        pdf_writer = PdfWriter()
+
+        print("\nEliminar pares o impares?:  ")
+        print("1.- Pares")
+        print("2.- Impares")
+        Respuesta = int(input("Respuesta:  "))
+
+        if Respuesta == 1:
+            for pagina_num in range(0, Cantidad_Paginas):  # Restamos 1 porque los índices comienzan desde 0
+                
+                if pagina_num % 2 == 0:
+                    pagina = pdf_reader.pages[pagina_num]
+                    pdf_writer.add_page(pagina)
+            print(f"Se han eliminado las páginas par.")
+            # Obtener el directorio actual del programa
+            directorio_actual = os.getcwd()
+
+        elif Respuesta != 2:
+            for pagina_num in range(primera_pagina - 1, Cantidad_Paginas):  # Restamos 1 porque los índices comienzan desde 0
+                if pagina_num % 2 == 0:
+                    pagina = pdf_reader.pages[pagina_num]
+                    pdf_writer.add_page(pagina)
+            print(f"Se han eliminado las páginas impares.")
+
+
+        # Verificar si el nombre del archivo de salida tiene la extensión .pdf
+        if not archivo_salida.lower().endswith('.pdf'):
+            archivo_salida += '.pdf'
+            # Obtener el directorio actual del programa
+            directorio_actual = os.getcwd()
+
+        # Verificar si el nombre del archivo de salida tiene la extensión .pdf
+        if not archivo_salida.lower().endswith('.pdf'):
+            archivo_salida += '.pdf'
+
+
+      # Ruta completa al archivo de salida
+        ruta_completa = os.path.join(directorio_actual, archivo_salida)
+
+        with open(archivo_salida, 'wb') as output_pdf:
+            pdf_writer.write(output_pdf)
+        
+
         print(f"Lo puedes encontrar en la ruta: {ruta_completa}")
     except Exception as e:
         print(f"Error al extraer el sub-PDF: {e}")
@@ -175,6 +225,7 @@ while(True):
     print("4.- Convertir PDF a Word")
     print("5.- Girar un PDF")
     print("6.- Quitarle portada a un PDF")
+    print("7.- Quitar pares/impares blancos")
     Operación = int(input("  Respuesta:  "))
 
     if Operación == 1:
@@ -265,3 +316,11 @@ while(True):
 
         if archivo_pdf:
             extraer_subpdf(archivo_pdf, 2, Cantidad_Paginas, nombre_subPDF)
+
+    if Operación == 7:
+        archivo_pdf = seleccionar_archivo()
+        Cantidad_Paginas = contar_paginas(archivo_pdf)
+        nombre_subPDF = input("Nombre de su nuevo PDF:  ")
+
+        if archivo_pdf:
+            QuitarPares(archivo_pdf, Cantidad_Paginas, nombre_subPDF)
