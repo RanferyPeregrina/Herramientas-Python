@@ -184,20 +184,39 @@ def Codificar(Texto):
     Vector = Traducir_Texto(Vector)
     print(f"Vector traducido como: {Vector}")
 
-    #El primer número de la contraseña nos dice cuánto sumar.
-    Suma = Vector[0]
-    #El tercer número de la contraseña nos da un multiplicador.
-    Multiplicador = Vector[2]
-    #El séptimo número de la contraseña nos da hambre
+    #El primer caracter nos da un factor de aleatorización
+    EspaciosAleatorios1 = Vector[0]
+    
+    #El segundo caracter nos da un factor de aleatorización
+    EspaciosAleatorios2 = Vector[1]
+
+    #El cuarto caracter nos da un número de suma
+    Suma1 = Vector[3]
+
+    #El sexto caracter nos da un número de resta
+    Resta1 = Vector[5]
+
+    #La octava letra da un caracter aleatorio.
+    CaracterAleatorio = Vector[7]
 
 
+    Posicion = 0
     if type(Texto) == str:
         Texto = Traducir_Texto(Texto)
-    else: print(f"Cadena leída con normalidad {Texto}")
-
+    
     for Caracter in Texto:
-        NuevoCaracter = ((Caracter * Multiplicador) + Suma) % 255
-        Texto_Nuevo.append(NuevoCaracter)
+        Posicion += 1
+        Caracter = Caracter + Suma1
+        Caracter = Caracter - Resta1
+        Caracter = Caracter % 255
+
+    Texto_Nuevo.append(Caracter)
+
+    if Posicion == EspaciosAleatorios1:
+        Texto_Nuevo.append(CaracterAleatorio)
+    if Posicion == EspaciosAleatorios2:
+        Texto_Nuevo.append(10)
+
     return Texto_Nuevo
 
 def Decodificar(Texto):
@@ -232,14 +251,7 @@ def Mostrar(Algo):
     #Si es una lista y no es muy larga la imprime
     elif type(Algo) == list: 
         print("En este momento es una lista")
-        if len(Algo) > 100:
-            print("\nSon más de 100 caracteres. ¿Seguro que quieres imprimir?")
-            print("1.- Sí")
-            print("2.- No")
-            Respuesta = int(input("Respuesta:  "))
-            if Respuesta == 1: print(Algo)
-            elif Respuesta != 1: print("Ok.")
-        else: print(Algo)
+        print(f"\n{Algo}")
     #Si no es nada... Algo salió mal y avisa.
     else:
         print("... Está en un estado desconocido")
@@ -255,4 +267,5 @@ def Main():
         Algo = MenuOperacion(Algo)
 
 Main()
+
 
