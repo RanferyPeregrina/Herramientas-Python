@@ -1,9 +1,15 @@
-Hola
-Texto leído
-Renglón 3
+%%%%%%%%%%%%%%%%% Nombre de lo que sea que esté guardando 1 %%%%%%%%%%%%%%%%% 
+Y aquí el contenido o el Link, por ejemplo: https://www.youtube.com/watch?v=AvZ1JRt7VR0
+Tags: Tag1 Romance, comedia, cosa chistosa, texto de ejemplo y tal
 
-Ok aquí voy a poner toda la boca de barbaridades que quiera poner porque sólo me interesa hacer relleno para hacer un montón de caracteres y que tenga que contarlos todos el programa que cuenta los caracteres en ASCII.
-lorem200
-Oh, no se puso el Lorem jajaja
+%%%%%%%%%%%%%%%%% Nombre de lo que sea que esté guardando 2 %%%%%%%%%%%%%%%%% 
+Y aquí el contenido o el Link, por ejemplo: https://web.whatsapp.com/
+Tags: Tag1 Romance, comedia, cosa chistosa, texto de ejemplo y tal
+Esos comentarios son exactamente los mismos eh.
 
-Estoy comprobando saltos de línea. Se ven chidos.
+
+%%%%%%%%%%%%%%%%% Nombre de lo que sea que esté guardando 3 %%%%%%%%%%%%%%%%% 
+Y aquí el contenido o el Link, por ejemplo: https://www.google.com/search?q=medusa+hidrozoos+cuales+son&oq=&gs_lcrp=EgZjaHJvbWUqCQgGECMYJxjqAjIPCAAQLhgnGMcBGOoCGNEDMgkIARAjGCcY6gIyCQgCECMYJxjqAjIJCAMQIxgnGOoCMgkIBBAjGCcY6gIyCQgFECMYJxjqAjIJCAYQIxgnGOoCMgkIBxAjGCcY6gIyCQgIEC4YJxjqAjIJCAkQIxgnGOoCMgkIChAjGCcY6gIyDAgLECMYJxjqAhi0BDIJCAwQLhgnGOoCMgkIDRAjGCcY6gIyCQgOECMYJxjqAjIRCA8QABgDGEIYjwEYtAIY6gIyDwgQEC4YAxiPARi0AhjqAjIRCBEQABgDGEIYjwEYtAIY6gIyEQgSEAAYAxhCGI8BGLQCGOoCMhEIExAAGAMYQhiPARi0AhjqAtIBBi0xajBqN6gCFLACAfEFdtID0rEO_B_xBXbSA9KxDvwf&client=ms-android-americamovil-mx-revc&sourceid=chrome-mobile&ie=UTF-8
+Tags: Tag2, Terror, Drama, azul, electrónico, giro
+Esos comentarios son exactamente los mismos eh.
+

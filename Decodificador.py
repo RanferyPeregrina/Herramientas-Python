@@ -196,26 +196,39 @@ def Codificar(Texto):
     #El sexto caracter nos da un número de resta
     Resta1 = Vector[5]
 
+    #El tercer caracter nos da una suma
+    Suma2 = Vector[2]
+
+    #El quinto caracter nos da una resta
+    Resta2 = Vector[4]
+
     #La octava letra da un caracter aleatorio.
     CaracterAleatorio = Vector[7]
 
+    CaracterAleatorio2 = min(Vector)
 
-    Posicion = 0
     if type(Texto) == str:
         Texto = Traducir_Texto(Texto)
     
+    Emojis = ["💙","✨","⚔","🤏","🎉","🚬","🗣","🤯","😴","🙏","📢","🤮","🖐","📸","👍"]
+    Posicion = 0
     for Caracter in Texto:
         Posicion += 1
         Caracter = Caracter + Suma1
         Caracter = Caracter - Resta1
+
+        if Posicion == EspaciosAleatorios1:
+            Caracter = Caracter + Suma2
+        if Posicion == EspaciosAleatorios2:
+            Caracter = Caracter - Resta2
+
         Caracter = Caracter % 255
+        Texto_Nuevo.append(Caracter)
 
-    Texto_Nuevo.append(Caracter)
 
-    if Posicion == EspaciosAleatorios1:
-        Texto_Nuevo.append(CaracterAleatorio)
-    if Posicion == EspaciosAleatorios2:
-        Texto_Nuevo.append(10)
+        if Posicion == EspaciosAleatorios2:
+            Texto_Nuevo.append(CaracterAleatorio)
+
 
     return Texto_Nuevo
 
@@ -267,5 +280,5 @@ def Main():
         Algo = MenuOperacion(Algo)
 
 Main()
-
+input()
 
