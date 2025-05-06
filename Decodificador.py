@@ -1,3 +1,5 @@
+import random
+
 def MenuIngreso():
 
 
@@ -34,7 +36,7 @@ def MenuOperacion(Algo):
 
     if Respuesta == 1: #Traducir ASCII
         Algo = Traducir_ASCII(Algo)
-        print(f"Palabra leída: {Algo}")
+
 
     elif Respuesta == 2: #Traducir texto
         Algo = Traducir_Texto(Algo)
@@ -181,6 +183,7 @@ def Codificar(Texto):
         if len(Vector) < 8: print("Contraseña muy pequeña. Intente de nuevo")
         else: break
 
+    LongitudVector = int(len(Vector))
     Vector = Traducir_Texto(Vector)
     print(f"Vector traducido como: {Vector}")
 
@@ -189,6 +192,12 @@ def Codificar(Texto):
     
     #El segundo caracter nos da un factor de aleatorización
     EspaciosAleatorios2 = Vector[1]
+
+  #La octava letra da un caracter aleatorio.
+    EspaciosAleatorios3 = Vector[6]
+
+    #Una frecuencia de espacios es la mitad de la longitud de la cadena
+    EspaciosAleatorios4 = LongitudVector
 
     #El cuarto caracter nos da un número de suma
     Suma1 = Vector[3]
@@ -205,15 +214,21 @@ def Codificar(Texto):
     #La octava letra da un caracter aleatorio.
     CaracterAleatorio = Vector[7]
 
+  #La octava letra da un caracter aleatorio.
     CaracterAleatorio2 = min(Vector)
+
+    CaracterAleatorio3 = random.randint(32, 255)
 
     if type(Texto) == str:
         Texto = Traducir_Texto(Texto)
     
     Emojis = ["💙","✨","⚔","🤏","🎉","🚬","🗣","🤯","😴","🙏","📢","🤮","🖐","📸","👍"]
     Posicion = 0
+
+
     for Caracter in Texto:
         Posicion += 1
+
         Caracter = Caracter + Suma1
         Caracter = Caracter - Resta1
 
@@ -227,7 +242,16 @@ def Codificar(Texto):
 
 
         if Posicion == EspaciosAleatorios2:
-            Texto_Nuevo.append(CaracterAleatorio)
+            Texto_Nuevo.append(ord(random.choice(Emojis)))
+  
+        if Posicion == EspaciosAleatorios3:
+            Texto_Nuevo.append(ord(random.choice(Emojis)))
+
+        if Posicion == EspaciosAleatorios4:
+            Texto_Nuevo.append(ord(random.choice(Emojis)))
+
+        if Posicion == max(Vector): Posicion = 0
+    
 
 
     return Texto_Nuevo
@@ -272,6 +296,18 @@ def Mostrar(Algo):
     print("\n================================================\n")
     return Algo
     
+def MostrarDigitos():
+    Muchas_Letras = []
+    for i in range(0, 256):
+        Muchas_Letras.append(chr(i))
+        print(f"Caracter {i}: {chr(i)}")
+
+    Muchos_Numeros = []
+    for j in range(0 , 256):
+        Muchos_Numeros.append(ord(Muchas_Letras[j]))
+        print(f"Lectura de {Muchas_Letras[j]} = {Muchos_Numeros[j]}")
+        if Muchos_Numeros[j] != j: print("\nERROR, este pinche número no va \n")
+
 
 def Main():
     print("\n" * 5)
