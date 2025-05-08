@@ -30,7 +30,7 @@ def MenuOperacion(Algo):
     print("1.- Traducor de ASCII a Texto")
     print("2.- Traducir de Texto a ASCII")
     print("3.- Codificar texto.")
-    print("4.- Mostrar contenido.")
+    print("4.- Decodificar texto.")
     print("0.- Reiniciar todo.")
     Respuesta = int(input("Respuesta:  "))
 
@@ -60,7 +60,18 @@ def MenuOperacion(Algo):
             print(Algo)
             print("\n===================================\n")
 
-    elif Respuesta == 4: Algo = Mostrar(Algo)
+    elif Respuesta == 4: #Decodificar
+        Algo = Decodificar(Algo)
+        print("¿Imprimir texto codificado?")
+        print("1.- Sí")
+        print("2.- No")
+        Respuesta = int(input("Respuesta:  "))
+        if Respuesta == 1:
+            print("\n===================================\n")
+            print(Algo)
+            print("\n===================================\n")
+
+    elif Respuesta == 5: Algo = Mostrar(Algo)
 
     elif Respuesta == 0:
         Main()
@@ -183,40 +194,29 @@ def Codificar(Texto):
         if len(Vector) < 8: print("Contraseña muy pequeña. Intente de nuevo")
         else: break
 
-    LongitudVector = int(len(Vector))
+    LongitudVector = int(len(Vector) * 7)
     Vector = Traducir_Texto(Vector)
-    print(f"Vector traducido como: {Vector}")
 
     #El primer caracter nos da un factor de aleatorización
     EspaciosAleatorios1 = Vector[0]
-    
     #El segundo caracter nos da un factor de aleatorización
     EspaciosAleatorios2 = Vector[1]
-
-  #La octava letra da un caracter aleatorio.
+    #La octava letra da un caracter aleatorio.
     EspaciosAleatorios3 = Vector[6]
-
     #Una frecuencia de espacios es la mitad de la longitud de la cadena
     EspaciosAleatorios4 = LongitudVector
-
     #El cuarto caracter nos da un número de suma
     Suma1 = Vector[3]
-
     #El sexto caracter nos da un número de resta
     Resta1 = Vector[5]
-
     #El tercer caracter nos da una suma
     Suma2 = Vector[2]
-
     #El quinto caracter nos da una resta
     Resta2 = Vector[4]
-
     #La octava letra da un caracter aleatorio.
     CaracterAleatorio = Vector[7]
-
-  #La octava letra da un caracter aleatorio.
+    #La octava letra da un caracter aleatorio.
     CaracterAleatorio2 = min(Vector)
-
     CaracterAleatorio3 = random.randint(32, 255)
 
     if type(Texto) == str:
@@ -226,13 +226,10 @@ def Codificar(Texto):
     for Caracter in Texto:
         Posicion += 1
 
-        Caracter = Caracter + Suma1
-        Caracter = Caracter - Resta1
+        Caracter = Caracter + Suma1 - Resta1
 
-        if Posicion == EspaciosAleatorios1:
-            Caracter = Caracter + Suma2
-        if Posicion == EspaciosAleatorios2:
-            Caracter = Caracter - Resta2
+        if Posicion == EspaciosAleatorios1: Caracter = Caracter + Suma2
+        if Posicion == EspaciosAleatorios2: Caracter = Caracter - Resta2
 
         Caracter = Caracter % 255
         Texto_Nuevo.append(Caracter)
@@ -246,25 +243,63 @@ def Codificar(Texto):
     return Texto_Nuevo
 
 def Decodificar(Texto):
-    Texto_Nuevo = []
-    while True:
-        Vector = input("Ingrese contraseña de codificación:  ")
-        if len(Vector) < 8: print("Contraseña muy pequeña. Intente de nuevo")
-        else: break
-    Vector = Traducir_Texto(Vector)
-
-
-    if type(Texto) == str:
-        print("El texto decodificado no es un código. Es una palabra.")
-        print("Traduciendo...")
-        Texto = Traducir_Texto
-    
-    Resta = Vector[0]
-    Divisor = [2]
-
-    for Letra in Texto:
-        Letra_Nueva = (Letra + () )
   
+    #Convertimos el texto en una lista
+    if type(Texto) == str:
+        Texto = Traducir_Texto(Texto)
+
+    #Preguntamos la contraseña
+    while True:
+        Vector = input("\nIngrese la contraseña con la que fue codificado su texto:  ")
+        if len(Vector) < 8: print("Contraseña demasiado corta.")
+        else: break
+    Vetor = Traducir_Texto(Vector)
+
+    #Conversión de datos
+    LongitudVector = int(len(Vector) * 7)
+    Vector = Traducir_Texto(Vector)
+    #El primer caracter nos da un factor de aleatorización
+    EspaciosAleatorios1 = Vector[0]
+    #El segundo caracter nos da un factor de aleatorización
+    EspaciosAleatorios2 = Vector[1]
+    #La octava letra da un caracter aleatorio.
+    EspaciosAleatorios3 = Vector[6]
+    #Una frecuencia de espacios es la mitad de la longitud de la cadena
+    EspaciosAleatorios4 = LongitudVector
+    #El cuarto caracter nos da un número de suma
+    Suma1 = Vector[3]
+    #El sexto caracter nos da un número de resta
+    Resta1 = Vector[5]
+    #El tercer caracter nos da una suma
+    Suma2 = Vector[2]
+    #El quinto caracter nos da una resta
+    Resta2 = Vector[4]
+    #La octava letra da un caracter aleatorio.
+    CaracterAleatorio = Vector[7]
+    #La octava letra da un caracter aleatorio.
+    CaracterAleatorio2 = min(Vector)
+    CaracterAleatorio3 = random.randint(32, 255)
+
+
+    Texto_Decodificado = [] 
+    Posicion = 0
+    for Letra in Texto:
+        Posicion += 1
+        Caracter_Original = (Letra - Suma1 + Resta1)
+        if Posicion == EspaciosAleatorios1: Caracter_Original = Letra - Suma2
+        if Posicion == EspaciosAleatorios2: Caracter_Original = Letra + Resta2
+        Caracter_Original = Caracter_Original % 255
+        Texto_Decodificado.append(Caracter_Original)
+
+        # if Posicion % EspaciosAleatorios1 == 0: Texto_Decodificado.remove(CaracterAleatorio)
+        # if Posicion % EspaciosAleatorios2 == 0: Texto_Decodificado.append(CaracterAleatorio2)
+        # if Posicion % EspaciosAleatorios3 == 0: Texto_Decodificado.append(CaracterAleatorio3)
+        # if Posicion % EspaciosAleatorios4 == 0: Texto_Decodificado.append(10)
+
+    return Texto_Decodificado
+
+
+
 def Mostrar(Algo):
     print("\n================================================\n")
 
