@@ -222,10 +222,7 @@ def Codificar(Texto):
     if type(Texto) == str:
         Texto = Traducir_Texto(Texto)
     
-    Emojis = ["💙","✨","⚔","🤏","🎉","🚬","🗣","🤯","😴","🙏","📢","🤮","🖐","📸","👍"]
     Posicion = 0
-
-
     for Caracter in Texto:
         Posicion += 1
 
@@ -240,19 +237,11 @@ def Codificar(Texto):
         Caracter = Caracter % 255
         Texto_Nuevo.append(Caracter)
 
-
-        if Posicion == EspaciosAleatorios2:
-            Texto_Nuevo.append(ord(random.choice(Emojis)))
-  
-        if Posicion == EspaciosAleatorios3:
-            Texto_Nuevo.append(ord(random.choice(Emojis)))
-
-        if Posicion == EspaciosAleatorios4:
-            Texto_Nuevo.append(ord(random.choice(Emojis)))
-
-        if Posicion == max(Vector): Posicion = 0
-    
-
+        if Posicion % EspaciosAleatorios1 == 0: Texto_Nuevo.append(CaracterAleatorio)
+        if Posicion % EspaciosAleatorios2 == 0: Texto_Nuevo.append(CaracterAleatorio2)
+        if Posicion % EspaciosAleatorios3 == 0: Texto_Nuevo.append(CaracterAleatorio3)
+        if Posicion % EspaciosAleatorios4 == 0: Texto_Nuevo.append(10)
+        
 
     return Texto_Nuevo
 
@@ -275,9 +264,7 @@ def Decodificar(Texto):
 
     for Letra in Texto:
         Letra_Nueva = (Letra + () )
-    
-
-
+  
 def Mostrar(Algo):
     print("\n================================================\n")
 
@@ -298,12 +285,12 @@ def Mostrar(Algo):
     
 def MostrarDigitos():
     Muchas_Letras = []
-    for i in range(0, 256):
+    for i in range(128000, 13000):
         Muchas_Letras.append(chr(i))
         print(f"Caracter {i}: {chr(i)}")
 
     Muchos_Numeros = []
-    for j in range(0 , 256):
+    for j in range(128000, 13000):
         Muchos_Numeros.append(ord(Muchas_Letras[j]))
         print(f"Lectura de {Muchas_Letras[j]} = {Muchos_Numeros[j]}")
         if Muchos_Numeros[j] != j: print("\nERROR, este pinche número no va \n")
