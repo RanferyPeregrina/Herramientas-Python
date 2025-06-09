@@ -244,15 +244,12 @@ def Codificar(Texto):
 
 def Decodificar(Texto):
   
-    #Convertimos el texto en una lista
-    if type(Texto) == str:
-        Texto = Traducir_Texto(Texto)
-
-    #Preguntamos la contraseña
+   
     while True:
-        Vector = input("\nIngrese la contraseña con la que fue codificado su texto:  ")
-        if len(Vector) < 8: print("Contraseña demasiado corta.")
+        Vector = input("Ingrese contraseña de codificación:  ")
+        if len(Vector) < 8: print("Contraseña muy pequeña. Intente de nuevo")
         else: break
+
     LongitudVector = int(len(Vector) * 7)
     Vector = Traducir_Texto(Vector)
 
@@ -277,6 +274,9 @@ def Decodificar(Texto):
     #La octava letra da un caracter aleatorio.
     CaracterAleatorio2 = min(Vector)
     CaracterAleatorio3 = random.randint(32, 255)
+
+    if type(Texto) == str:
+        Texto = Traducir_Texto(Texto)
 
 
     Texto_Decodificado = []
