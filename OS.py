@@ -1,70 +1,46 @@
 import os
+def Leer_Directorio():
+    Directorio_Actual = os.getcwd()
+    return Directorio_Actual
 
-#  --------------------- Obtener un directorio de trabajo ----------------------
-def seleccionar_directorio_actual():
-    # Obtiene el directorio actual de trabajo
-    directorio_actual = os.getcwd()
-    print(f"El directorio actual es: {directorio_actual}")
-    return directorio_actual
+def Entrar_Directorio(Carpeta):
+    Directorio_Actual = Leer_Directorio()
+    Directorio_Actual = Directorio_Actual + "\\" + Carpeta #Hay que usar Join en lugar de concatenar
+    #Hay que usar chdir para mover el directorio
+    return Directorio_Actual
 
-# Uso
-directorio_actual = seleccionar_directorio_actual()
 
-#  ---------------------- Cambiar un directorio de trabajo ----------------------
+def Subir_Directorio(Veces = 1):
+    Veces = int(Veces)
+    Directorio_Actual = Leer_Directorio()
+    for i in range(Veces):
+        os.chdir("..")
+    return Directorio_Actual
 
-def cambiar_directorio(nuevo_directorio):
-    # Cambia el directorio de trabajo al especificado
-    os.chdir(nuevo_directorio)
-    print(f"Se ha cambiado al directorio: {nuevo_directorio}")
+def Enlistar_Directorio():
+    Directorio_Actual = Leer_Directorio()
+    Contenido = os.listdir()
+    print("-"*20)
+    for Archivo in Contenido:
+        print(Archivo)
+    print("-"*20)
 
-# Uso
-nuevo_directorio = "/ruta/a/tu/nuevo/directorio"
-cambiar_directorio(nuevo_directorio)
+while True:
+    Directorio_Actual = Leer_Directorio()
+    print(f"Estamos en: {Directorio_Actual}")
 
-#  ----------------------- Crear un directorio de trabajo ----------------------
+    print("-"*10)
+    print("1.- Entrar carpeta.")
+    print("2.- Subir directorio")
+    print("3.- Enlistar documentos.")
+    Operacion = int(input("Respuesta:  "))
 
-def crear_directorio(nombre_directorio):
-    # Crea un nuevo directorio con el nombre especificado
-    os.makedirs(nombre_directorio, exist_ok=True)
-    print(f"Se ha creado el directorio: {nombre_directorio}")
-
-# Uso
-nombre_directorio = "nuevo_directorio"
-crear_directorio(nombre_directorio)
-
-#  ----------------------- "dir" de  un directorio de trabajo ----------------------
-
-def listar_archivos(directorio):
-    # Lista todos los archivos y carpetas en el directorio especificado
-    archivos = os.listdir(directorio)
-    print(f"Archivos en el directorio {directorio}: {archivos}")
-    return archivos
-
-# Uso
-directorio = "/ruta/a/tu/directorio"
-listar_archivos(directorio)
-
-#  ----------------------- Mover archivo de un directorio ----------------------
-
-import shutil
-
-def mover_archivo(ruta_archivo, directorio_destino):
-    # Mueve un archivo a otro directorio
-    shutil.move(ruta_archivo, directorio_destino)
-    print(f"Se ha movido el archivo {ruta_archivo} a {directorio_destino}")
-
-# Uso
-ruta_archivo = "/ruta/a/tu/archivo.txt"
-directorio_destino = "/ruta/a/tu/directorio_destino"
-mover_archivo(ruta_archivo, directorio_destino)
-
-#  ----------------------- Eliminar archivo de un directorio ----------------------
-
-def eliminar_archivo(ruta_archivo):
-    # Elimina el archivo especificado
-    os.remove(ruta_archivo)
-    print(f"Se ha eliminado el archivo: {ruta_archivo}")
-
-# Uso
-ruta_archivo = "/ruta/a/tu/archivo.txt"
-eliminar_archivo(ruta_archivo)
+    if Operacion == 1:
+        Carpeta = input("¿A qué carpeta/archivo?:  ")
+        Directorio_Actual = Entrar_Directorio(Carpeta)
+    elif Operacion == 2:
+        Veces = int(input("¿Cuántas veces?:  "))
+        Subir_Directorio(Veces)
+        print()
+    elif Operacion == 3:
+        Enlistar_Directorio()
