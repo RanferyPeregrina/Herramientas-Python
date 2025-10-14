@@ -1,46 +1,43 @@
 import os
-def Leer_Directorio():
+
+def LeerDirectorio():
     Directorio_Actual = os.getcwd()
     return Directorio_Actual
 
-def Entrar_Directorio(Carpeta):
-    Directorio_Actual = Leer_Directorio()
-    Directorio_Actual = Directorio_Actual + "\\" + Carpeta #Hay que usar Join en lugar de concatenar
-    #Hay que usar chdir para mover el directorio
-    return Directorio_Actual
-
-
-def Subir_Directorio(Veces = 1):
+def SubirDirectorio(Veces):
+    if Veces == "": Veces = 1
     Veces = int(Veces)
-    Directorio_Actual = Leer_Directorio()
+
     for i in range(Veces):
-        os.chdir("..")
+        Directorio_Actual = os.chdir("..")
     return Directorio_Actual
 
-def Enlistar_Directorio():
-    Directorio_Actual = Leer_Directorio()
-    Contenido = os.listdir()
-    print("-"*20)
-    for Archivo in Contenido:
+def EntrarDirectorio(Directorio_Actual):
+    print("- " * 20)
+    print("¿A qué carpeta?")
+    print("- " * 20)
+    print()
+    Archivos = os.listdir()
+    for Archivo in Archivos:
         print(Archivo)
-    print("-"*20)
+    print()
+    Archivo_Elegido = input(" - - - - - - - RESPUESTA:  ")
+
+    Directorio_Actual = os.chdir(os.path.join(Directorio_Actual, Archivo_Elegido))
+    
 
 while True:
-    Directorio_Actual = Leer_Directorio()
-    print(f"Estamos en: {Directorio_Actual}")
+    Directorio_Actual = LeerDirectorio()
+    print("=" * 40)
+    print(f"Hola. Actualmente estás en el directorio: {Directorio_Actual}")
+    print("1.- Imprimir directorio actual")
+    print("2.- Entrar a otro directorio")
+    print("3.- Subir directorios")
+    Respuesta = int(input("Operación:  "))
+    print()
 
-    print("-"*10)
-    print("1.- Entrar carpeta.")
-    print("2.- Subir directorio")
-    print("3.- Enlistar documentos.")
-    Operacion = int(input("Respuesta:  "))
-
-    if Operacion == 1:
-        Carpeta = input("¿A qué carpeta/archivo?:  ")
-        Directorio_Actual = Entrar_Directorio(Carpeta)
-    elif Operacion == 2:
-        Veces = int(input("¿Cuántas veces?:  "))
-        Subir_Directorio(Veces)
-        print()
-    elif Operacion == 3:
-        Enlistar_Directorio()
+    if Respuesta == 1: print(os.getcwd())
+    elif Respuesta == 2: EntrarDirectorio(Directorio_Actual)
+    elif Respuesta == 3:
+        Veces = input("¿Cuántas veces?:  ") 
+        SubirDirectorio(Veces)
