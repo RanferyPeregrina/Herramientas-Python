@@ -1,4 +1,5 @@
 import os
+import PyPDF2
 
 Biblioteca = []
 Libros_Rechazados = []
@@ -18,6 +19,7 @@ def Libro_Admitido(Archivo):
     return any(Guion in Archivo for Guion in Guiones_Permitidos)
       
 def Procesar(Archivo):
+    #Acomodar el nombre del documento ------------------------------------------
     Titulo_Archivo = Archivo
     Titulo_Archivo = Titulo_Archivo.replace(" -", " - ").replace("- ", " - ")
     Titulo_Archivo = Titulo_Archivo.replace("  ", " ")
@@ -26,9 +28,18 @@ def Procesar(Archivo):
     if " - " not in Titulo_Archivo:
         Titulo_Archivo += " - Autor desconocido"
 
+    #Obtener los datos del documento ------------------------------------------
     Titulo_Separado = Titulo_Archivo.split(" - ")
-    Libro_Titulo = Titulo_Separado[0]
-    Libro_Autor = Titulo_Separado[1]
+    Libro_Titulo = Titulo_Separado[0]           #Obtener el título
+    Libro_Autor = Titulo_Separado[1]            #Obtener el autor
+
+    #Obtener la cantidad de páginas
+
+    with open(Archivo, "r") as Archivo_PDF:
+        Archivo_LecturaEnPDF = PyPDF2.PdfReader(Archivo_PDF)
+        Cantidad_Paginas = len(Archivo_LecturaEnPDF.pages)
+        print(f"Del archivo {Archivo_PDF} son {Cantidad_Paginas} páginas")
+
 
     return{
         'Titulo ': Libro_Titulo,
@@ -58,6 +69,17 @@ def Formar_Biblioteca():
 
 
 Directorio_Actual = os.getcwd()
+
+print("Primero que nada, estamos trabajando en el directiorio:")
+print(Directorio_Actual)
+print()
+
+print("¿Cambiar directorio?")
+print("1.- Sí")
+print("2.- No")
+Cambiar_Directorio = int(input("Respuesta:  "))
+if Cambiar_Directorio == 1: os.chdir("")
+
 Biblioteca = Formar_Biblioteca()
 print(f"La biblioteca se está formando de: {Directorio_Actual}")
 print("¿Imprimir biblioteca?")
