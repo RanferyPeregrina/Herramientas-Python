@@ -26,7 +26,7 @@ while True:
     CoordenadaX, CoordenadaY = Mover(Direccion, CoordenadaX, CoordenadaY)
     Intentos += 1
 
-    if Intentos >= 10000000:
+    if Intentos >= 1000000:
         if MensajeTiempo == False:
             MensajeTiempo = True
             print("Oh, estoy va a tardar mucho.")

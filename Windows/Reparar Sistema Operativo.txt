@@ -1,0 +1,23 @@
+===================================================================
+Pasos para cuando el disco duro no lee la particón que tiene el SO
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Abrir la BIOs y leer qué partición está leyendon con prioridad
+	Primeramente va la lectura del que tiene Windows.
+	Usualmente la letra C
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+Primero abrir el menú de las particiones
+	diskpart
+Enlistar los volumenes leídos con el Simbolo del sistema:
+	list volume
+Que no muestre nada sugiere que:
+- El disco duro/SSD no es detectado físicamente por la BIOS/UEFI, o...
+- La tabla de particiones está tan corrupta que diskpart no puede interpretarla.
+
+Si ha mostrado que no hay nada:
+Caso A: list disk NO muestra ningún disco. Esto es malo. Significa un problema de hardware (cable suelto, disco muerto, puerto SATA/controlador dañado). Lo único que puedes hacer es apagar la PC, revisar las conexiones físicas del disco duro y volver a intentar.
+Caso B: list disk muestra tu disco (p.ej., "Disco 0"), pero su tamaño es 0 B o no es el tamaño correcto. También es una muy mala señal, probablemente falla hardware del disco.
+Caso C: list disk muestra tu disco con el tamaño correcto. ¡Esto es una buena noticia! Significa que el hardware es reconocido y el problema es lógico (corrupción de la tabla de particiones). 
+
