@@ -1,7 +1,7 @@
 #Para que estas importaciones funcionen tienes que usar:
 #pip install PyPDF2 PyMuPDF 
 import os               #Para la lógica de archivos y lectura de documentos
-import PyPDF2           #Para la lectura de los PDFs
+import PyPDF2      #Para la lectura de los PDFs
 import tkinter as tk    #Para abrir una ventanita
 from tkinter import filedialog
 
@@ -39,7 +39,7 @@ def Procesar(Archivo):
     Libro_Autor = Libro_Datos[1]            #Obtener el autor
 
     #Obtener la cantidad de páginas
-    with open(Archivo, "r") as Archivo_PDF:
+    with open(Archivo, "rb") as Archivo_PDF:
         Instancia_Lectura = PyPDF2.PdfReader(Archivo_PDF)
         Numero_Paginas = len(Instancia_Lectura.pages)
         return Numero_Paginas
@@ -79,17 +79,21 @@ print("Primero que nada, estamos trabajando en el directiorio:")
 print(Directorio_Actual)
 print()
 
-print("¿Cambiar directorio?")
-print("1.- Sí")
-print("2.- No")
-Cambiar_Directorio = int(input("Respuesta:  "))
-if Cambiar_Directorio == 1:
-    root = tk.Tk()
-    root.title("Cambiar directorio")
-    Directorio_Actual = filedialog.askdirectory()
-    if Directorio_Actual:  # Si el usuario selecciona un directorio
-        os.chdir(Directorio_Actual)
-        print("Directorio de trabajo cambiado a:", os.getcwd())
+while True: 
+    print("¿Cambiar directorio?")
+    print("1.- Sí")
+    print("2.- No")
+    Cambiar_Directorio = int(input("Respuesta:  "))
+    if Cambiar_Directorio == 1:
+        root = tk.Tk()  #Crea una ventana equis nomás para tener una excusa para abrir los archivos.
+        root.title("Cambiar directorio")
+        root.withdraw()  # Oculta la ventana principal
+
+        Directorio_Actual = filedialog.askdirectory()
+        if Directorio_Actual:  # Si el usuario selecciona un directorio
+            os.chdir(Directorio_Actual) #Cambia ese directorio
+            print("Directorio de trabajo cambiado a:", os.getcwd())
+    if Cambiar_Directorio == 2: break
 
 Biblioteca = Formar_Biblioteca()
 print(f"La biblioteca se está formando de: {Directorio_Actual}")
