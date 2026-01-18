@@ -226,6 +226,7 @@ while(True):
     print("5.- Girar un PDF")
     print("6.- Quitarle portada a un PDF")
     print("7.- Quitar pares/impares blancos")
+    print("8.- Dividir en fragmentos")
     Operación = int(input("  Respuesta:  "))
 
     if Operación == 1:
@@ -318,9 +319,41 @@ while(True):
             extraer_subpdf(archivo_pdf, 2, Cantidad_Paginas, nombre_subPDF)
 
     if Operación == 7:
+    
         archivo_pdf = seleccionar_archivo()
         Cantidad_Paginas = contar_paginas(archivo_pdf)
         nombre_subPDF = input("Nombre de su nuevo PDF:  ")
 
         if archivo_pdf:
             QuitarPares(archivo_pdf, Cantidad_Paginas, nombre_subPDF)
+    
+    if Operación == 8:
+        print('\n' * 5)
+        print("Seleccione su archivo.")
+        archivo_pdf = seleccionar_archivo()
+        if archivo_pdf:
+            Cantidad_Paginas = contar_paginas(archivo_pdf)
+            print(f"Su archivo tiene {Cantidad_Paginas}")
+            Partes = int(input('¿En cuántas partes lo quieres dividir?  :  '))
+
+            Division = int(Cantidad_Paginas/Partes)
+            Residuo = Cantidad_Paginas % Partes
+            Inicio = 0
+            Final = Division
+
+            for i in range(1, Partes+1):
+                
+                NuevoNombre =archivo_pdf = archivo_pdf + '_' + i
+                Final = Division * i
+                if i == Partes: Final = Cantidad_Paginas
+                
+                print()
+                print(f'El archivo {archivo_pdf}_{i} es desde {Inicio + 1} hasta {Final}')
+                extraer_subpdf(archivo_pdf, Inicio + 1, Final, archivo_pdf)
+                print()
+
+                if Final % 2 != 0: Final += 1
+                Inicio = Final
+
+
+
