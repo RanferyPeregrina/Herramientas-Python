@@ -60,6 +60,7 @@ def extraer_subpdf(archivo_original, primera_pagina, ultima_pagina, archivo_sali
         print(f"Lo puedes encontrar en la ruta: {ruta_completa}")
     except Exception as e:
         print(f"Error al extraer el sub-PDF: {e}")
+        input()
 
 def QuitarPares(pdf, Cantidad_Paginas, archivo_salida):
     try:
@@ -343,16 +344,17 @@ while(True):
 
             for i in range(1, Partes+1):
                 
-                NuevoNombre =archivo_pdf = archivo_pdf + '_' + i
+                NuevoNombre = os.path.splitext(archivo_pdf)[0] + ' (PARTE ' + str(i) + ')'
                 Final = Division * i
                 if i == Partes: Final = Cantidad_Paginas
                 
+                if Final % 2 != 0: Final += 1
+                
                 print()
-                print(f'El archivo {archivo_pdf}_{i} es desde {Inicio + 1} hasta {Final}')
-                extraer_subpdf(archivo_pdf, Inicio + 1, Final, archivo_pdf)
+                print(f'El archivo {archivo_pdf} PARTE {i} es desde {Inicio + 1} hasta {Final}')
+                extraer_subpdf(archivo_pdf, Inicio + 1, Final, NuevoNombre)
                 print()
 
-                if Final % 2 != 0: Final += 1
                 Inicio = Final
 
 
