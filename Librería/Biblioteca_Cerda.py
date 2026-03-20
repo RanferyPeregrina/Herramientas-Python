@@ -61,14 +61,18 @@ def AgregarLibro(Archivo):
     Titulo = ObtenerDatos(Archivo, 'Libro')
     Paginas = ObtenerDatos(Archivo, 'Paginas')
     
-    Libro_Nuevo = {
-        
+    #Primero obtengo el libro y lo guardo como diccionario.
+    Libro_Nuevo = { 'Titulo': Titulo,
+                    'Autor': Autor,
+                    'Paginas': Paginas
     }
+    #Luego ese libro lo guardo como fila de un DataFrame
+    Libro_Nuevo = pd.DataFrame(Libro_Nuevo)
 
 def LeerBiblioteca_Excel():
     try:
-        df_Biblioteca = pd.read_excel("Biblioteca_Cerda.xlsx")
-        print(f"{len(df_Biblioteca)} registros leídos ✨")
+        df_BibliotecaExcel = pd.read_excel("Biblioteca_Cerda.xlsx")
+        print(f"{len(df_BibliotecaExcel)} registros leídos ✨")
         # print(df_Biblioteca)
         print()
     except FileNotFoundError:
@@ -78,11 +82,13 @@ def LeerBiblioteca_Excel():
 
 def LeerBiblioteca_Documentos():
     for Archivo in os.listdir():
-        if ComprobarLibro(Archivo): AgregarLibro(Archivo)
+        #Añado el DataFrame (fila) a un DataFrame con todos los libros que tengo.
+        if ComprobarLibro(Archivo): df_BibliotecaLocal = pd.concat(AgregarLibro(Archivo))
         else: ListaDescartados.append(Archivo)
         print(Archivo)
+    print(df_BibliotecaLocal)
 PreguntarDirectorio()
-LeerBiblioteca_Excel()
 LeerBiblioteca_Documentos()
+LeerBiblioteca_Excel()
 
 input()
