@@ -40,3 +40,4 @@ for j in range(CantidadEntrenadores):
         print(PokemonElegido)
         Pokemon.remove(PokemonElegido)
     print('\n')
+    input()
