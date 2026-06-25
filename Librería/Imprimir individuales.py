@@ -6,6 +6,8 @@ import sys
 import shutil
 from PyPDF2 import PdfReader
 
+
+
 def LeerDirectorio():
     Directorio_Actual = os.path.dirname(os.path.abspath(__file__))
     return Directorio_Actual
@@ -20,13 +22,39 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
     """
     
     carpeta = Path(carpeta_pdfs)
-    
+    PaginasLocales = 0
+
     if not carpeta.exists():
         print(f"❌ La carpeta {carpeta} no existe")
         return
     
+    # Leer el archivo Requeridos.txt
+    archivo_requeridos = Path('Requeridos.txt')
+    if not archivo_requeridos.exists():
+        print(f"❌ El archivo 'Requeridos.txt' no existe en el directorio actual")
+        return
+
+    # Crear un set con los nombres de los PDFs requeridos (sin espacios al inicio/final)
+    requeridos = set()
+    with open(archivo_requeridos, 'r', encoding='utf-8') as f:
+        for linea in f:
+            nombre = linea.strip()
+            if nombre:  # Ignorar líneas vacías
+                requeridos.add(nombre)
+    
+    print(f"📋 Se encontraron {len(requeridos)} archivos en Requeridos.txt")
+
     # Obtener lista de PDFs
-    pdfs = list(carpeta.glob("*.pdf"))
+    todos_pdfs = list(carpeta.glob("*.pdf"))
+
+        # Filtrar solo los PDFs que están en Requeridos.txt
+    pdfs = [pdf for pdf in todos_pdfs if pdf.name in requeridos]
+    
+    if not pdfs:
+        print(f"⚠️  No se encontraron PDFs que coincidan con los listados en Requeridos.txt")
+        print(f"   Total PDFs en carpeta: {len(todos_pdfs)}")
+        print(f"   Archivos requeridos: {len(requeridos)}")
+        return
     
     if not pdfs:
         print(f"⚠️  No se encontraron PDFs en {carpeta}")
@@ -41,7 +69,14 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
     for i, pdf in enumerate(pdfs, 1):
         try:
             print(f"\n📄 [{i}/{len(pdfs)}] Imprimiendo: {pdf.name}")
-            
+
+            with open(pdf.name, 'rb') as ArchivoPDF:
+                LecturaArchivoPDF = PdfReader(ArchivoPDF)
+                PaginasLocales += len(LecturaArchivoPDF.pages)
+
+                with open('LogActual.txt', 'a', encoding='utf-') as Registro:
+                    Registro.write(f'{pdf.name}\n')
+
             # Método 1: Usar el comando de Windows (más confiable)
             if sys.platform == "win32":
                 # Para Windows
@@ -72,6 +107,9 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
             
             # Pequeña pausa para evitar saturar la cola de impresión
             time.sleep(1)
+
+            # Pequeña pausa de seguridad cada 2000 hojas.
+            if contador_exitos % 2000 == 0: input('\nPausa de seguridad. \nSolo presione ENTER para continuar.')
             
         except subprocess.TimeoutExpired:
             print(f"⚠️  Timeout imprimiendo {pdf.name}")
@@ -79,12 +117,16 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
         except Exception as e:
             print(f"❌ Error imprimiendo {pdf.name}: {str(e)}")
             contador_errores += 1
+        except Exception as e:
+            print(e)
+            ontador_errores += 1
     
     print("\n" + "=" * 50)
     print(f"📊 Resumen de impresión:")
     print(f"   Total documentos: {len(pdfs)}")
     print(f"   Impresiones exitosas: {contador_exitos}")
     print(f"   Errores: {contador_errores}")
+    print(f'   Cantidad de páginas impresas: {PaginasLocales}')
     print("=" * 50)
 
 def imprimir_pdf_individual(pdf_path, impresora_nombre=None):
