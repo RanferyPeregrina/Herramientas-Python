@@ -28,33 +28,51 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
         print(f"❌ La carpeta {carpeta} no existe")
         return
     
-    # Leer el archivo Requeridos.txt
-    archivo_requeridos = Path('Requeridos.txt')
-    if not archivo_requeridos.exists():
-        print(f"❌ El archivo 'Requeridos.txt' no existe en el directorio actual")
-        return
-
+    # Esto es para que funcione una lista de exluídos--------------------------------------
+       # Leer el archivo Excluidos.txt
+    ArchivosExcluidos = Path('Excluidos.txt')
     # Crear un set con los nombres de los PDFs requeridos (sin espacios al inicio/final)
-    requeridos = set()
-    with open(archivo_requeridos, 'r', encoding='utf-8') as f:
+    Excluidos = set()
+    with open(ArchivosExcluidos, 'r', encoding='utf-8') as f:
         for linea in f:
             nombre = linea.strip()
             if nombre:  # Ignorar líneas vacías
-                requeridos.add(nombre)
-    
-    print(f"📋 Se encontraron {len(requeridos)} archivos en Requeridos.txt")
-
+                Excluidos.add(nombre)
+                
     # Obtener lista de PDFs
     todos_pdfs = list(carpeta.glob("*.pdf"))
+    # Filtrar solo los PDFs que están en Requeridos.txt
+  
 
-        # Filtrar solo los PDFs que están en Requeridos.txt
-    pdfs = [pdf for pdf in todos_pdfs if pdf.name in requeridos]
+    # ---------------------------------------------------------------------------------------------------
+
+    # # Leer el archivo Requeridos.txt
+    # archivo_requeridos = Path('Requeridos.txt')
+    # if not archivo_requeridos.exists():
+    #     print(f"❌ El archivo 'Requeridos.txt' no existe en el directorio actual")
+    #     return
+
+    # # Crear un set con los nombres de los PDFs requeridos (sin espacios al inicio/final)
+    # requeridos = set()
+    # with open(archivo_requeridos, 'r', encoding='utf-8') as f:
+    #     for linea in f:
+    #         nombre = linea.strip()
+    #         if nombre:  # Ignorar líneas vacías
+    #             requeridos.add(nombre)
     
-    if not pdfs:
-        print(f"⚠️  No se encontraron PDFs que coincidan con los listados en Requeridos.txt")
-        print(f"   Total PDFs en carpeta: {len(todos_pdfs)}")
-        print(f"   Archivos requeridos: {len(requeridos)}")
-        return
+    # print(f"📋 Se encontraron {len(requeridos)} archivos en Requeridos.txt")
+
+    # # Obtener lista de PDFs
+    # todos_pdfs = list(carpeta.glob("*.pdf"))
+    #     # Filtrar solo los PDFs que están en Requeridos.txt
+    # pdfs = [pdf for pdf in todos_pdfs if pdf.name in requeridos]
+    
+    #Incluimos a todos los PDFS, sin filtro. Si quieres filtrar, comenta esta linea de abajo.
+    # pdfs = list(carpeta.glob("*.pdf"))
+    #Incluimos a todos los PDFs, con el filtro de que no metan a los excluídos.
+    pdfs = [pdf for pdf in todos_pdfs if pdf.name not in Excluidos]
+
+
     
     if not pdfs:
         print(f"⚠️  No se encontraron PDFs en {carpeta}")
