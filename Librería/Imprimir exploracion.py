@@ -109,7 +109,7 @@ def explorar_e_imprimir(carpeta_inicio):
         for archivo in archivos:
             ruta_completa = os.path.join(raiz, archivo)
             if archivo.lower().endswith('.pdf'):
-                pdfs.append(ruta_completa)
+                # pdfs.append(ruta_completa)
                 print(f"   📄 PDF: {archivo}")
             elif archivo.lower().endswith('.xlsx'):
                 excels.append(ruta_completa)
@@ -124,7 +124,7 @@ def explorar_e_imprimir(carpeta_inicio):
     print("-" * 60)
 
     # Mezclar ambos tipos en una sola lista (primero PDFs, luego Excel, o el orden que quieras)
-    documentos = [(r, 'pdf') for r in pdfs] + [(r, 'excel') for r in excels]
+    documentos = [(r, 'excel') for r in excels]
 
     exitos = 0
     errores = 0
