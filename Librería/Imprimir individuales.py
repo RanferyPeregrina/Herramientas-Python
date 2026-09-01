@@ -3,12 +3,45 @@ import subprocess
 import time
 from pathlib import Path
 import sys
-# import shutil # (No lo estás usando)
 from PyPDF2 import PdfReader
+
+#Cambiar estas variables cuando se ejecute el programa en otro local.
+nombre_impresora = 'Canon 2'
+limite_seguridad = 5
+tiempo_espera = 8.0
+
+# Intentamos importar win32 para control avanzado de impresora
+try:
+    import win32print
+    import win32api
+    USAR_WIN32 = True
+except ImportError:
+    USAR_WIN32 = False
 
 def LeerDirectorio():
     Directorio_Actual = os.path.dirname(os.path.abspath(__file__))
     return Directorio_Actual
+
+def verificar_y_configurar_impresora(nombre_deseado):
+    """Verifica si la impresora existe en el sistema y la muestra."""
+    if not USAR_WIN32:
+        print("⚠️ La librería 'pywin32' no está instalada. Se intentará impresión básica.")
+        return False
+
+    try:
+        impresoras = [printer[2] for printer in win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)]
+        print(f"🖨️ Impresoras detectadas en el sistema: {impresoras}")
+
+        if nombre_deseado in impresoras:
+            print(f"✅ ¡Impresora encontrada con éxito: '{nombre_deseado}'!")
+            return True
+        else:
+            print(f"❌ ADVERTENCIA: No se encontró la impresora '{nombre_deseado}'.")
+            print("   Se buscará usar la predeterminada del equipo.")
+            return False
+    except Exception as e:
+        print(f"⚠️ Error al listar impresoras: {e}")
+        return False
 
 def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
     carpeta = Path(carpeta_pdfs)
@@ -18,7 +51,7 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
         print(f"❌ La carpeta {carpeta} no existe")
         return
     
-    # 1. SOLUCIÓN: Validar que exista Excluidos.txt antes de abrirlo
+    # Validar Excluidos.txt
     ArchivosExcluidos = Path('Excluidos.txt')
     Excluidos = set()
     
@@ -31,15 +64,28 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
     else:
         print("⚠️ No se encontró 'Excluidos.txt', se imprimirán todos los archivos.")
 
-    # Obtener lista de PDFs ORDENADOS alfabéticamente
-    todos_pdfs = sorted(list(carpeta.glob("*.pdf")))
+    todos_pdfs = sorted(
+        list(carpeta.glob("*.pdf")),
+        key=lambda p: [int(x) if x.isdigit() else x.lower() for x in __import__('re').split(r'(\d+)', p.name)]
+    )
+
+    for pdf in todos_pdfs:
+        print(pdf.name)
+
+    input("\nPresiona ENTER para comenzar la impresión...")
+
     pdfs = [pdf for pdf in todos_pdfs if pdf.name not in Excluidos]
 
     if not pdfs:
-        print(f"⚠️  No se encontraron PDFs en {carpeta}")
+        print(f"⚠️ No se encontraron PDFs en {carpeta}")
         return
     
-    print(f"🖨️  Iniciando impresión de {len(pdfs)} documentos...")
+    # Validar la impresora al arrancar el proceso
+    impresora_valida = verificar_y_configurar_impresora(impresora_nombre) if impresora_nombre else False
+    target_printer = impresora_nombre if impresora_valida else (win32print.GetDefaultPrinter() if USAR_WIN32 else None)
+
+    print(f"\n🖨️ Iniciando impresión DUPLEX (A dos caras) de {len(pdfs)} documentos...")
+    print(f"🎯 Usando impresora activa: {target_printer}")
     print("-" * 50)
     
     contador_exitos = 0
@@ -47,37 +93,44 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
     contador_global = 0
     
     for i, pdf in enumerate(pdfs, 1):
-        if contador_global > 0 and contador_global % 100 == 0:
-            print('\n Límite de 100 páginas impresas.')
-            print(f"   Total: {len(pdfs)}")
+        #Modifiquen este parámetro para controlar el límite de impresiones de seguridad
+        if contador_global > 0 and contador_global % limite_seguridad == 0:
+            print('\n⏸️ Límite de seguridad alcanzado.')
+            print(f"   Total procesados: {len(pdfs)}")
             print(f"   Correctas: {contador_exitos}")
             print(f"   Errores: {contador_errores}")
             input('Presiona Enter para continuar. . .')
         
         try:
-            print(f"\n📄 [{i}/{len(pdfs)}] Imprimiendo: {pdf.name}")
+            print(f"\n📄 [{i}/{len(pdfs)}] Imprimiendo a 2 caras: {pdf.name}")
 
-            # Busca cada PDF y cuántas páginas tiene.
             with open(pdf, 'rb') as ArchivoPDF:
                 LecturaArchivoPDF = PdfReader(ArchivoPDF)
                 PaginasLocales += len(LecturaArchivoPDF.pages)
 
-                # Crea un registro con los que va imprimiendo bien.
-                with open('LogActual.txt', 'w', encoding='utf-8') as Registro:
-                    Registro.write(f'{pdf.name}\n')
+                with open("LogActual.txt", "a", encoding='utf-8') as Registro:
+                    Registro.write(f'{pdf}\n')
             
             contador_global += 1
             
             if sys.platform == "win32":
-                comando = f"Start-Process -FilePath '{pdf}' -Verb Print -WindowStyle Hidden"
-                subprocess.run(["powershell", "-Command", comando], timeout=30, check=True)
+                ruta_pdf_str = str(pdf.resolve())
+
+                if USAR_WIN32 and target_printer:
+                    # Método nativo mediante ShellExecute especificando la impresora exacta
+                    # Windows recurrirá al controlador PCL6 de la Xerox y respetará el ajuste dúplex predeterminado del driver.
+                    win32api.ShellExecute(0, "print", ruta_pdf_str, f'/d:"{target_printer}"', ".", 0)
+                else:
+                    # Respaldo por PowerShell si pywin32 tuviera algún inconveniente menor
+                    comando = f"Start-Process -FilePath '{ruta_pdf_str}' -Verb Print -WindowStyle Hidden"
+                    subprocess.run(["powershell", "-Command", comando], timeout=30, check=True)
             
             contador_exitos += 1
-            print(f"✅ Impresión enviada correctamente")
-            time.sleep(1)
+            print(f"✅ Enviado a la cola de impresión de '{target_printer}'")
+            time.sleep(tiempo_espera) # Pausa breve para evitar saturar el spooler de la impresora
             
         except subprocess.TimeoutExpired:
-            print(f"⚠️  Timeout imprimiendo {pdf.name}")
+            print(f"⚠️ Timeout imprimiendo {pdf.name}")
             contador_errores += 1
         except Exception as e:
             print(f"❌ Error imprimiendo {pdf.name}: {str(e)}")
@@ -88,20 +141,18 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
     print(f"   Total documentos: {len(pdfs)}")
     print(f"   Impresiones exitosas: {contador_exitos}")
     print(f"   Errores: {contador_errores}")
-    print(f'   Cantidad de páginas impresas: {PaginasLocales}')
+    print(f"   Cantidad total de páginas: {PaginasLocales}")
     print("=" * 50)
 
 if __name__ == "__main__":
-    # Truco para que NUNCA se te vuelva a cerrar la terminal si hay un error
     try:
         carpeta_origen = LeerDirectorio()
         carpeta_extendidos = carpeta_origen
-        nombre_impresora = None
         
-        print("🖨️  SCRIPT DE IMPRESIÓN DE CONTRATOS EXTENDIDOS")
+        print("🖨️ SCRIPT DE IMPRESIÓN DUPLEX - CONTRATOS EXTENDIDOS")
         print("=" * 50)
         
-        print(f"\n⚠️  Se van a imprimir todos los PDFs en:")
+        print(f"\n⚠️ Se van a imprimir a DOS CARAS todos los PDFs en:")
         print(f"   {carpeta_extendidos}")
         
         respuesta = input("\n¿Deseas continuar? (s/n): ").lower()
@@ -112,7 +163,7 @@ if __name__ == "__main__":
             print("❌ Impresión cancelada por el usuario")
 
     except Exception as e:
-        print(f"\n💀 ERROR FATAL QUE CERRABA TU TERMINAL: {e}")
+        print(f"\n💀 ERROR FATAL: {e}")
     
     finally:
         input('\nPrograma finalizado. Presiona ENTER para salir...')
