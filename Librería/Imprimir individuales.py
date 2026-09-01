@@ -69,8 +69,10 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
         key=lambda p: [int(x) if x.isdigit() else x.lower() for x in __import__('re').split(r'(\d+)', p.name)]
     )
 
-    for pdf in todos_pdfs:
-        print(pdf.name)
+    imprimir_listota = input('\n¿Por motivos de depuración, imprimir toda la lista? (Si / No):  ')
+    if imprimir_listota.lower() == 'si':
+        for pdf in todos_pdfs:
+            print(pdf.name)
 
     input("\nPresiona ENTER para comenzar la impresión...")
 
