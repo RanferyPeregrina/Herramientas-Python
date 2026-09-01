@@ -110,8 +110,6 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
                 LecturaArchivoPDF = PdfReader(ArchivoPDF)
                 PaginasLocales += len(LecturaArchivoPDF.pages)
 
-                with open("LogActual.txt", "a", encoding='utf-8') as Registro:
-                    Registro.write(f'{pdf}\n')
             
             contador_global += 1
             
@@ -128,6 +126,8 @@ def imprimir_pdfs_individuales(carpeta_pdfs, impresora_nombre=None):
                     subprocess.run(["powershell", "-Command", comando], timeout=30, check=True)
             
             contador_exitos += 1
+            with open("LogActual.txt", "a", encoding='utf-8') as Registro:
+                                Registro.write(f'{pdf}\n')
             print(f"✅ Enviado a la cola de impresión de '{target_printer}'")
             time.sleep(tiempo_espera) # Pausa breve para evitar saturar el spooler de la impresora
             
